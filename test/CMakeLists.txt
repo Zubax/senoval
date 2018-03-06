@@ -50,6 +50,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Woverloaded-virtual -Wsign-promo -Wold-
 add_executable(senoval_test
                test_string.cpp
                test_vector.cpp
+               test_comparison.cpp
                test_main.cpp
                ../string.hpp
                ../vector.hpp)
