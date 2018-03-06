@@ -1,3 +1,6 @@
+[![Join the chat at https://gitter.im/Zubax/general](https://img.shields.io/badge/GITTER-join%20chat-green.svg)](https://gitter.im/Zubax/general)
+[![Travis CI build status](https://travis-ci.org/Zubax/senoval.svg?branch=master)](https://travis-ci.org/Zubax/senoval)
+
 # Senoval
 
 A simple dependency-free library of C++17 classes for real-time embedded systems.
