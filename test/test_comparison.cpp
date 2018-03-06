@@ -67,8 +67,8 @@ TEST_CASE("Comparison")
 
     REQUIRE(positive(1e-4));
     REQUIRE(!negative(1e-4));
-    REQUIRE(positive(-1e-4));
-    REQUIRE(!negative(-1e-4));
+    REQUIRE(!positive(-1e-4));
+    REQUIRE(negative(-1e-4));
     REQUIRE(!positive(0));
     REQUIRE(!negative(0));
 }
