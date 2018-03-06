@@ -60,10 +60,7 @@ template <
     typename = std::enable_if_t<std::is_integral<T>::value>>
 inline constexpr auto convertIntToString(T number)
 {
-    constexpr char Alphabet[] = "0123456789abcdefghijklmnopqrstuvwxyz";
-
     static_assert(Radix >= 1, "Radix must be positive");
-    static_assert(Radix <= (sizeof(Alphabet) / sizeof(Alphabet[0])), "Radix is too large");
 
     // Plus 1 to round up, see the standard for details.
     constexpr std::uint16_t MaxChars =
@@ -79,6 +76,9 @@ inline constexpr auto convertIntToString(T number)
         explicit constexpr Container(T x) :
             offset_(MaxChars)          // Field initialization is not working in GCC in this context, not sure why.
         {
+            constexpr char Alphabet[] = "0123456789abcdefghijklmnopqrstuvwxyz";
+            static_assert(Radix <= (sizeof(Alphabet) / sizeof(Alphabet[0])), "Radix is too large");
+
             bool negative = false;
             if constexpr (std::is_signed<T>::value)
             {
