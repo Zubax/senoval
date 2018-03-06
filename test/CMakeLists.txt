@@ -48,7 +48,8 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Woverloaded-virtual -Wsign-promo -Wold-
 # We add the library header explicitly here in order to let the IDE (JetBrains CLion in my case)
 # recognize it as part of the project rather than some run-off-the-mill weird include.
 add_executable(senoval_test
-               test.cpp
+               test_string.cpp
+               test_vector.cpp
                test_main.cpp
                ../string.hpp
                ../vector.hpp)

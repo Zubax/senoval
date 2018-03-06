@@ -3,7 +3,7 @@
 
 # Senoval
 
-A simple dependency-free library of C++17 classes for real-time embedded systems.
+A simple dependency-free header-only library of C++17 classes for real-time embedded systems.
 It is mostly intended for use as a git submodule.
 
 ## Usage
