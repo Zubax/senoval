@@ -47,6 +47,43 @@
 using namespace senoval;
 
 
+template <std::uint8_t Radix = 10, typename T>
+constexpr inline auto intToStringHelper(T value)
+{
+    auto result = convertIntToString<Radix>(value);
+    return String<result.capacity()>(result);
+}
+
+
+TEST_CASE("IntToString")
+{
+    static constexpr auto A = convertIntToString(123);
+    REQUIRE(String<20>(A) == "123");
+
+    REQUIRE(intToStringHelper(0) == "0");
+    REQUIRE(intToStringHelper(1) == "1");
+    REQUIRE(intToStringHelper(-1) == "-1");
+
+    REQUIRE(intToStringHelper(123456) == "123456");
+    REQUIRE(intToStringHelper(-123456) == "-123456");
+
+    REQUIRE(intToStringHelper<16>(123456) == "1e240");
+    REQUIRE(intToStringHelper<2>(123456) == "11110001001000000");
+
+    REQUIRE(intToStringHelper<10, std::int8_t>(127)  ==  "127");
+    REQUIRE(intToStringHelper<10, std::int8_t>(-128) == "-128");
+
+    REQUIRE(intToStringHelper<10, std::int16_t>(32767)  ==  "32767");
+    REQUIRE(intToStringHelper<10, std::int16_t>(-32768) == "-32768");
+
+    REQUIRE(intToStringHelper<10, std::int32_t>(2147483647)  ==  "2147483647");
+    REQUIRE(intToStringHelper<10, std::int32_t>(-2147483648) == "-2147483648");
+
+    REQUIRE(intToStringHelper<10, std::int64_t>(9223372036854775807LL)  ==  "9223372036854775807");
+    REQUIRE(intToStringHelper<10, std::int64_t>(-9223372036854775807LL) == "-9223372036854775807");
+}
+
+
 TEST_CASE("String")
 {
     String<10> s;

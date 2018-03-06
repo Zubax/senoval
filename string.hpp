@@ -40,6 +40,105 @@
 namespace senoval
 {
 /**
+ * Converts any signed or unsigned integer or boolean to string and returns it by value.
+ * The argument must be of integral type, otherwise the call will be rejected by SFINAE.
+ * Usage examples:
+ *      intToString(var)
+ *      intToString<16>(var)
+ *      intToString<2>(var).c_str()
+ * It is safe to obtain a reference to the returned string and pass it to another function as an argument,
+ * which enables use cases like this (this example is somewhat made up, but it conveys the idea nicely):
+ *      print("%s", intToString(123).c_str());
+ * The returned value can be also converted to String<>.
+ * More info on rvalue references:
+ *      https://herbsutter.com/2008/01/01/gotw-88-a-candidate-for-the-most-important-const/
+ *      http://stackoverflow.com/questions/584824/guaranteed-lifetime-of-temporary-in-c
+ */
+template <
+    std::uint8_t Radix = 10,
+    typename T,
+    typename = std::enable_if_t<std::is_integral<T>::value>>
+inline constexpr auto convertIntToString(T number)
+{
+    constexpr char Alphabet[] = "0123456789abcdefghijklmnopqrstuvwxyz";
+
+    static_assert(Radix >= 1, "Radix must be positive");
+    static_assert(Radix <= (sizeof(Alphabet) / sizeof(Alphabet[0])), "Radix is too large");
+
+    // Plus 1 to round up, see the standard for details.
+    constexpr std::uint16_t MaxChars =
+        std::uint16_t(((Radix >= 10) ? std::numeric_limits<T>::digits10 : std::numeric_limits<T>::digits) +
+                      1 + (std::is_signed<T>::value ? 1 : 0));
+
+    class Container
+    {
+        std::uint16_t offset_;
+        char storage_[MaxChars + 1]{};   // Plus 1 because of zero termination.
+
+    public:
+        explicit constexpr Container(T x) :
+            offset_(MaxChars)          // Field initialization is not working in GCC in this context, not sure why.
+        {
+            bool negative = false;
+            if constexpr (std::is_signed<T>::value)
+            {
+                // Usage of constexpr if allows us to silence the comparison warning for unsigned types
+                negative = (x < 0);
+            }
+
+            do
+            {
+                assert(offset_ > 0);
+
+                if constexpr (std::is_signed<T>::value)
+                {
+                    // We can't just do "x = -x", because it would break on int8_t(-128), int16_t(-32768), etc.
+                    std::int8_t residual = std::int8_t(x % Radix);
+                    if (residual < 0)
+                    {
+                        // Should never happen - since C++11, neg % pos --> pos
+                        residual = std::int8_t(-residual);
+                    }
+
+                    storage_[--offset_] = Alphabet[residual];
+
+                    // Signed integers are really tricky sometimes.
+                    // We must not mix negative with positive to avoid implementation-defined behaviors.
+                    x = T((x < 0) ? -(x / -Radix) : (x / Radix));
+                }
+                else
+                {
+                    // Fast branch for unsigned arguments.
+                    storage_[--offset_] = Alphabet[x % Radix];
+                    x = T(x / Radix);
+                }
+            }
+            while (x != 0);
+
+            if (negative)
+            {
+                assert(offset_ > 0);
+                storage_[--offset_] = '-';
+            }
+
+            assert(offset_ < MaxChars);                 // Making sure there was no overflow.
+        }
+
+        const char* c_str() const { return &storage_[offset_]; }
+
+        operator const char* () const { return this->c_str(); }
+
+        std::uint16_t length() const { return std::uint16_t(MaxChars - offset_); }
+        std::uint16_t size() const { return length(); }
+
+        constexpr std::uint16_t capacity() const { return MaxChars; }
+        constexpr std::uint16_t max_size() const { return MaxChars; }
+    };
+
+    return Container(number);
+}
+
+/**
  * A string with fixed storage, API like std::string.
  */
 template <std::size_t Capacity_>
