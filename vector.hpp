@@ -144,6 +144,18 @@ public:
         }
     }
 
+    void pop_back()
+    {
+        if (len_ > 0)
+        {
+            --len_;
+        }
+        else
+        {
+            assert(false);
+        }
+    }
+
     [[nodiscard]] T&       front()       { return operator[](0); }
     [[nodiscard]] const T& front() const { return operator[](0); }
 

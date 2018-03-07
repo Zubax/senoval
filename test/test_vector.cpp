@@ -94,6 +94,18 @@ TEST_CASE("Vector")
     REQUIRE(1 == vec.front());
     REQUIRE(10 == vec.back());
 
+    vec.pop_back();
+    vec.pop_back();
+    REQUIRE(!vec.empty());
+    REQUIRE(vec.size() == 8);
+    REQUIRE(1 == *vec.begin());
+    REQUIRE(8 == *(vec.end() - 1));
+    REQUIRE(1 == vec.front());
+    REQUIRE(8 == vec.back());
+
+    vec.push_back(9);
+    vec.push_back(10);
+
     const std::int8_t arr[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
     const Vector<std::int8_t, 80> vec2(std::begin(arr), std::end(arr));
     REQUIRE(sizeof(vec2) == 80 + sizeof(std::size_t));
