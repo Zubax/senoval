@@ -180,8 +180,8 @@ public:
     [[nodiscard]] const T* begin() const { return &buf_[0]; }
     [[nodiscard]] const T* end()   const { return &buf_[len_]; }
 
-    [[nodiscard]] T* data() { return &buf_; }
-    [[nodiscard]] const T* data() const { return &buf_; }
+    [[nodiscard]] T* data() { return &buf_[0]; }
+    [[nodiscard]] const T* data() const { return &buf_[0]; }
 
     /*
      * Operators
