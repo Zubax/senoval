@@ -33,7 +33,7 @@ if(NOT CMAKE_BUILD_TYPE)
         FORCE)
 endif()
 
-include_directories(../..
+include_directories(..
                     .)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 -Wall -Wextra -Werror -pedantic")
@@ -45,12 +45,13 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wsign-conversion -Wcast-align -Wmissing
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wtype-limits -Wzero-as-null-pointer-constant -Wnon-virtual-dtor")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Woverloaded-virtual -Wsign-promo -Wold-style-cast")
 
-# We add the library header explicitly here in order to let the IDE (JetBrains CLion in my case)
+# We add the library headers explicitly here in order to let the IDE (JetBrains CLion in my case)
 # recognize it as part of the project rather than some run-off-the-mill weird include.
 add_executable(senoval_test
                test_string.cpp
                test_vector.cpp
                test_comparison.cpp
                test_main.cpp
-               ../string.hpp
-               ../vector.hpp)
+               ../senoval/string.hpp
+               ../senoval/vector.hpp
+               ../senoval/comparison.hpp)

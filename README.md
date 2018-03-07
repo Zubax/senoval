@@ -19,7 +19,7 @@ git submodule add https://github.com/Zubax/senoval
 For more information, refer to the Git docs.
 
 Having added the library to your codebase, configure your build system so that
-the Senoval directory is located within your include search paths.
+its root directory is located within your include search paths.
 Then include the library as follows (example):
 
 ```c++
