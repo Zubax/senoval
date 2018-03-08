@@ -163,4 +163,8 @@ TEST_CASE("String")
     REQUIRE(s2 == "hElLo/*-12");
     s2.resize(0);
     REQUIRE(s2.empty());
+
+    REQUIRE(s == "hElLo/*-12");
+    *s.data() = 'J';
+    REQUIRE(s == "JElLo/*-12");
 }

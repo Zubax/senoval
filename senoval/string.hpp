@@ -268,6 +268,9 @@ public:
     [[nodiscard]] const char* begin() const { return &buf_[0]; }
     [[nodiscard]] const char* end()   const { return &buf_[len_]; }
 
+    [[nodiscard]] char*       data()       { return &buf_[0]; }
+    [[nodiscard]] const char* data() const { return &buf_[0]; }
+
     /*
      * Operators
      */
