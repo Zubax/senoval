@@ -67,17 +67,18 @@ static constexpr unsigned DefaultEpsilonMultiplier = 10;
  * Exact comparison of two floats that suppresses compiler warnings.
  * Most of the time you DON'T want to use this function! Consider using close() instead.
  */
-template <typename T>
-inline bool equal(const T& left,
-                  const T& right)
+template <typename L, typename R>
+inline bool equal(const L& left,
+                  const R& right)
 {
-    if constexpr (std::is_floating_point_v<std::decay_t<T>>)
+    if constexpr (std::is_floating_point_v<std::decay_t<L>> ||
+                  std::is_floating_point_v<std::decay_t<R>>)
     {
         return (left <= right) && (left >= right);
     }
     else
     {
-        return left == right;
+        return left == right;   // Neither are floats
     }
 }
 
