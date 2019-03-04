@@ -1,4 +1,4 @@
-[![Join the chat at https://gitter.im/Zubax/general](https://img.shields.io/badge/GITTER-join%20chat-green.svg)](https://gitter.im/Zubax/general)
+[![Forum](https://img.shields.io/discourse/https/forum.zubax.com/users.svg)](https://forum.zubax.com)
 [![Travis CI build status](https://travis-ci.org/Zubax/senoval.svg?branch=master)](https://travis-ci.org/Zubax/senoval)
 
 # Senoval
@@ -29,3 +29,6 @@ Then include the library as follows (example):
 ## Development
 
 Contributors, please follow the [Zubax Coding Conventions](https://kb.zubax.com/x/84Ah).
+
+Build and run the tests like this: `cd test/ && cmake . && make && ./senoval_test`.
+See the CI build script for additional details.
